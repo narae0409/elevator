@@ -5,6 +5,6 @@ Install list<br>
 4. mysqlclient<br><br>
 
 Env.<br>
-ubuntu 8.1.xx ver.<br>
-python 3.8 ver.<br>
-django 3.1 ver.<br>
+1. ubuntu 8.1.xx ver.<br>
+2. python 3.8 ver.<br>
+3. django 3.1 ver.<br>
