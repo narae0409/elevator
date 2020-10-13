@@ -113,7 +113,9 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-DATETIME_FORMAT = '%Y-%m-%d %H:%M:%S'
+REST_FRAMEWORK = {
+    'DATETIME_FORMAT': '%Y-%m-%d %H:%M:%S'
+}
 
 TIME_ZONE = 'Asia/Seoul'
 
