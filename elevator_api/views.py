@@ -78,6 +78,7 @@ class DataInsert(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        #새로 입력할 데이터의 pk가 DB에 존재한다면 새로 저장이 아닌 데이터 변경으로 구현할 것.
 
 """
     def delete(self, request, pk, format=None):
