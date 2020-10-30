@@ -1,10 +1,10 @@
 from rest_framework import serializers 
-from .models import Data
+from .models import *
 
 class MovieSerializer(serializers.ModelSerializer): 
     class Meta: 
-        model = Data # 모델 설정 
-        fields = ('id','time','sensor','measure') # 필드 설정
+        model = Elevator # 모델 설정 
+        fields = ('number','date','acceleration','altitude') # 필드 설정
 
 
 """

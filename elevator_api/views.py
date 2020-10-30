@@ -1,4 +1,4 @@
-from .models import Data 
+from .models import *
 from .serializers import MovieSerializer 
 from django.http import Http404
 from rest_framework.views import APIView
@@ -13,12 +13,12 @@ class DataList(APIView):
 
     def get_object(self, pk):
         try:
-            return Data.objects.filter(sensor=pk)
-        except Data.DoesNotExist:
+            return Elevator.objects.filter(sensor=pk)
+        except Elevator.DoesNotExist:
             raise Http404
         
     def get(self, request, format=None):
-        dt = Data.objects.all()
+        dt = Elevator.objects.all()
         serializer = MovieSerializer(dt, many=True)
         #DB data serializer를 통한 json화, xml file은 python module xmltodict 
         return Response(serializer.data)
@@ -36,7 +36,7 @@ class DataList(APIView):
 class Detail(APIView):
         
     def get(self, request, format=None):
-        dt = Data.objects.all()
+        dt = Elevator.objects.all()
         serializer = MovieSerializer(dt, many=True)
         #DB data serializer를 통한 json화, xml file은 python module xmltodict 
         return Response(serializer.data)
@@ -68,7 +68,7 @@ class Detail(APIView):
 class DataInsert(APIView):
 
     def get(self, request, format=None):
-        dt = Data.objects.all()
+        dt = Elevator.objects.all()
         serializer = MovieSerializer(dt, many=True)
         return Response(serializer.data)
 
