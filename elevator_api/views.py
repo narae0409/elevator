@@ -1,5 +1,5 @@
 from .models import *
-from .serializers import MovieSerializer 
+from .serializers import *
 from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -32,6 +32,28 @@ class DataList(APIView):
 
         return Response(serializer.data)
 
+class DataAddress(APIView):
+
+    def get_object(self, pk):
+        try:
+            return Address.objects.filter(address__icontains=pk)
+        except Address.DoesNotExist:
+            raise Http404
+        
+    def get(self, request, format=None):
+        dt = Address.objects.all()
+        serializer = AddressSerializer(dt, many=True)
+        #DB data serializer를 통한 json화, xml file은 python module xmltodict 
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        val = request.data.values()
+        if val is not None:
+            for i in val:
+                snippet = self.get_object(i)
+                serializer = AddressSerializer(snippet, many=True)
+
+        return Response(serializer.data)
 
 class Detail(APIView):
         
@@ -59,6 +81,8 @@ class Detail(APIView):
                         dict1 = {}
                         dict1=i
                     #print(dict1)
+                    address = (dict1['address1'] + ' ' + dict1['buldNm'] + ' ' + dict1['elvtrAsignNo'])
+                    Address.objects.update_or_create(number=number, address=address)
             except:
                 return Response(status=status.HTTP_400_BAD_REQUEST) 
 
