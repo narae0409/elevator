@@ -11,6 +11,12 @@ class AddressSerializer(serializers.ModelSerializer):
         model = Address # 모델 설정 
         fields = ('number','address') # 필드 설정
 
+class UserSerializer(serializers.ModelSerializer): 
+    class Meta: 
+        model = User # 모델 설정 
+        fields = ('my_id','password', 'permission_number') # 필드 설정
+
+# fields에 포함되지 않는 columns는 DB에 저장되지도 않는다.
 
 """
 class MovieSerializer(serializers.ModelSerializer):

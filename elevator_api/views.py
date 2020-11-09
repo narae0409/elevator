@@ -43,7 +43,6 @@ class DataAddress(APIView):
     def get(self, request, format=None):
         dt = Address.objects.all()
         serializer = AddressSerializer(dt, many=True)
-        #DB data serializer를 통한 json화, xml file은 python module xmltodict 
         return Response(serializer.data)
 
     def post(self, request, format=None):
@@ -103,6 +102,20 @@ class DataInsert(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         #새로 입력할 데이터의 pk가 DB에 존재한다면 새로 저장이 아닌 데이터 변경으로 구현할 것.
+
+class NewUser(APIView):
+
+    def get(self, request, format=None):
+        dt = User.objects.all()
+        serializer = UserSerializer(dt, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        serializer = UserSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 """
     def delete(self, request, pk, format=None):
