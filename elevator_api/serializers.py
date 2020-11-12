@@ -4,7 +4,7 @@ from .models import *
 class MovieSerializer(serializers.ModelSerializer): 
     class Meta: 
         model = Elevator # 모델 설정 
-        fields = ('id', 'number','date','acceleration','altitude', 'pir') # 필드 설정
+        fields = ('id', 'number','date','acceleration', 'pir', 'base_altitude', 'current_altitude', 'height') # 필드 설정
 
 class AddressSerializer(serializers.ModelSerializer): 
     class Meta: 
@@ -14,7 +14,7 @@ class AddressSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer): 
     class Meta: 
         model = User # 모델 설정 
-        fields = ('my_id','password', 'permission_number') # 필드 설정
+        fields = ('my_id','password', 'permission_number', 'agency') # 필드 설정
 
 # fields에 포함되지 않는 columns는 DB에 저장되지도 않는다.
 

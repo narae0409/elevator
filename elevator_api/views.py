@@ -105,17 +105,26 @@ class DataInsert(APIView):
 
 class NewUser(APIView):
 
+    def get_object(self, pk):
+        try:
+            return User.objects.filter(my_id=pk)
+        except User.DoesNotExist:
+            raise Http404
+        
     def get(self, request, format=None):
         dt = User.objects.all()
         serializer = UserSerializer(dt, many=True)
+        #DB data serializer를 통한 json화, xml file은 python module xmltodict 
         return Response(serializer.data)
 
     def post(self, request, format=None):
-        serializer = UserSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        val = request.data.values()
+        if val is not None:
+            for i in val:
+                snippet = self.get_object(i)
+                serializer = UserSerializer(snippet, many=True)
+
+        return Response(serializer.data)
 
 """
     def delete(self, request, pk, format=None):

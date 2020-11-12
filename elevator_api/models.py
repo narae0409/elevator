@@ -5,11 +5,11 @@ class Elevator(models.Model):
     number = models.IntegerField(default=0)
     date = models.DateTimeField(auto_now=True)
     acceleration = models.IntegerField(default=0)
-    altitude = models.IntegerField(default=0)
     pir = models.BooleanField(default=False)
     permission_number = models.IntegerField(default=0)
-
-
+    base_altitude = models.FloatField(default=0.)
+    current_altitude = models.FloatField(default=0.)
+    height = models.FloatField(default=0.)
 
     def __str__(self):
         return self.number
@@ -25,6 +25,7 @@ class User(models.Model):
     my_id = models.CharField(max_length=100, primary_key=True)
     password = models.CharField(max_length=100)
     permission_number = models.IntegerField(default=0)
+    agency = models.CharField(max_length=100, default='None')
 
     def __str__(self):
         return self.my_id
