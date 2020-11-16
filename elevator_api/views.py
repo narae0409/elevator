@@ -119,6 +119,37 @@ class NewUser(APIView):
 
     def post(self, request, format=None):
         val = request.data.values()
+        arr = list(val)
+        dict1 = {"msg":"fail"}
+        if arr[0] is not None:
+            snippet = self.get_object(arr[0])
+            for i in snippet.iterator():
+                try:
+                    if i.password == arr[1]:
+                        dict1 = {"msg":"success"}
+                except IndexError:
+                    return Response(status=status.HTTP_400_BAD_REQUEST)
+            #serializer = UserSerializer(snippet, many=True)
+
+        return Response(dict1)
+
+"""
+class NewUser(APIView):
+
+    def get_object(self, pk):
+        try:
+            return User.objects.filter(my_id=pk)
+        except User.DoesNotExist:
+            raise Http404
+        
+    def get(self, request, format=None):
+        dt = User.objects.all()
+        serializer = UserSerializer(dt, many=True)
+        #DB data serializer를 통한 json화, xml file은 python module xmltodict 
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        val = request.data.values()
         if val is not None:
             for i in val:
                 snippet = self.get_object(i)
@@ -126,7 +157,7 @@ class NewUser(APIView):
 
         return Response(serializer.data)
 
-"""
+
     def delete(self, request, pk, format=None):
         snippet = self.get_object(pk)
         snippet.delete()
