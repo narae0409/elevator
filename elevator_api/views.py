@@ -13,7 +13,7 @@ class DataList(APIView):
 
     def get_object(self, pk):
         try:
-            return Elevator.objects.filter(sensor=pk)
+            return Elevator.objects.filter(number=pk)
         except Elevator.DoesNotExist:
             raise Http404
         
