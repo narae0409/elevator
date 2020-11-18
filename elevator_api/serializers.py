@@ -4,7 +4,7 @@ from .models import *
 class MovieSerializer(serializers.ModelSerializer): 
     class Meta: 
         model = Elevator # 모델 설정 
-        fields = ('id', 'number','date','acceleration', 'pir', 'base_altitude', 'current_altitude', 'height') # 필드 설정
+        fields = ('id', 'number','date', 'ir','acceleration_x','acceleration_y','acceleration_z','roll', 'pitch', 'yaw', 'base_altitude', 'current_altitude', 'height', 'permission_number') # 필드 설정
 
 class AddressSerializer(serializers.ModelSerializer): 
     class Meta: 

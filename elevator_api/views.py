@@ -96,12 +96,20 @@ class DataInsert(APIView):
         return Response(serializer.data)
 
     def post(self, request, format=None):
-        serializer = MovieSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        #새로 입력할 데이터의 pk가 DB에 존재한다면 새로 저장이 아닌 데이터 변경으로 구현할 것.
+        val = request.data.values()
+        arr = list(val)
+        dict1 = {"msg":"fail"}
+        if arr[0] is not None:
+            try:
+                # ('number'=0,'humidity'=1, 'tempareture'=2, 'ir'=3,'acceleration_x'=4,'acceleration_y'=5,'acceleration_z'=6,'roll'=7, 'pitch'=8, 'yaw'=9, 'base_altitude'=10, 'current_altitude'=11, 'height'=12, 'permission_number'=13)
+                dict1 = {"number":arr[0], "humidity":arr[1],"tempareture":arr[2], "ir":arr[3], "acceleration_x":arr[4], "acceleration_y":arr[5], "acceleration_z":arr[6], "roll":arr[7], "pitch":arr[8], "yaw":arr[9], "base_altitude":arr[10], "current_altitude":arr[11], "height":arr[12], "permission_number":arr[13]}
+                Elevator.objects.create(number=arr[0], ir=arr[3], acceleration_x=arr[4], acceleration_y=arr[5], acceleration_z=arr[6], roll=arr[7], pitch=arr[8], yaw=arr[9], base_altitude=arr[10], current_altitude=arr[11], height=arr[12], permission_number=arr[13])  # dict1 = {"msg":"success"}
+                return Response(dict1)
+            except IndexError:
+                return Response(status=status.HTTP_400_BAD_REQUEST)
+            #serializer = UserSerializer(snippet, many=True)
+
+        return Response(dict1)
 
 class NewUser(APIView):
 
@@ -134,6 +142,18 @@ class NewUser(APIView):
         return Response(dict1)
 
 """
+
+    def post(self, request, format=None):
+        serializer = MovieSerializer(data=request.data)
+        print(serializer)
+        print(serializer.pir)
+        print(type(serializer))
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        #새로 입력할 데이터의 pk가 DB에 존재한다면 새로 저장이 아닌 데이터 변경으로 구현할 것.
+
 class NewUser(APIView):
 
     def get_object(self, pk):

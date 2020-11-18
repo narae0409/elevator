@@ -4,12 +4,17 @@ from django.db import models
 class Elevator(models.Model):
     number = models.IntegerField(default=0)
     date = models.DateTimeField(auto_now=True)
-    acceleration = models.IntegerField(default=0)
-    pir = models.BooleanField(default=False)
-    permission_number = models.IntegerField(default=0)
+    ir = models.IntegerField(default=0)
+    acceleration_x = models.FloatField(default=0.)
+    acceleration_y = models.FloatField(default=0.)
+    acceleration_z = models.FloatField(default=0.)
+    roll = models.FloatField(default=0.)
+    pitch = models.FloatField(default=0.)
+    yaw = models.FloatField(default=0.)
     base_altitude = models.FloatField(default=0.)
     current_altitude = models.FloatField(default=0.)
     height = models.FloatField(default=0.)
+    permission_number = models.IntegerField(default=0)
 
     def __str__(self):
         return self.number
