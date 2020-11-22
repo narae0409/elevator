@@ -13,7 +13,10 @@ class DataList(APIView):
 
     def get_object(self, pk):
         try:
-            return Elevator.objects.filter(number=pk)
+            pn = request.session.get('permission_number')
+            data = Elevator.objects.filter(number=pk)
+            result = data.filter(permission_number=pn)
+            return result
         except Elevator.DoesNotExist:
             raise Http404
         
@@ -134,6 +137,7 @@ class NewUser(APIView):
             for i in snippet.iterator():
                 try:
                     if i.password == arr[1]:
+                        request.session['permission_number'] = i.permission_number
                         dict1 = {"msg":"success"}
                 except IndexError:
                     return Response(status=status.HTTP_400_BAD_REQUEST)

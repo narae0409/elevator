@@ -8,7 +8,7 @@ Install list<br>
 7. json<br><br>
 
 Env.<br>
-1. ubuntu 8.1.xx ver.<br>
+1. ubuntu 20.04.1 LTS ver.<br>
 2. python 3.8 ver.<br>
 3. django 3.1 ver.<br><br>
 
