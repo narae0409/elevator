@@ -11,9 +11,9 @@ import json
 
 class DataList(APIView):
 
-    def get_object(self, pk):
+    def get_object(self,dd, pk):
         try:
-            pn = request.session.get('permission_number')
+            pn = dd
             data = Elevator.objects.filter(number=pk)
             result = data.filter(permission_number=pn)
             return result
@@ -30,7 +30,11 @@ class DataList(APIView):
         val = request.data.values()
         if val is not None:
             for i in val:
-                snippet = self.get_object(i)
+                try:
+                    dd = int(request.session.get('permission_number'))
+                except TypeError:
+                    raise Http404    
+                snippet = self.get_object(dd, i)
                 serializer = MovieSerializer(snippet, many=True)
 
         return Response(serializer.data)
