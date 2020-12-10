@@ -11,12 +11,9 @@ import json
 
 class DataList(APIView):
 
-    def get_object(self,dd, pk):
+    def get_object(self, pk):
         try:
-            pn = dd
-            data = Elevator.objects.filter(number=pk)
-            result = data.filter(permission_number=pn)
-            return result
+            return Elevator.objects.filter(number=pk)
         except Elevator.DoesNotExist:
             raise Http404
         
@@ -29,12 +26,8 @@ class DataList(APIView):
     def post(self, request, format=None):
         val = request.data.values()
         if val is not None:
-            for i in val:
-                try:
-                    dd = int(request.session.get('permission_number'))
-                except TypeError:
-                    raise Http404    
-                snippet = self.get_object(dd, i)
+            for i in val:  
+                snippet = self.get_object(i)
                 serializer = MovieSerializer(snippet, many=True)
 
         return Response(serializer.data)
@@ -141,7 +134,6 @@ class NewUser(APIView):
             for i in snippet.iterator():
                 try:
                     if i.password == arr[1]:
-                        request.session['permission_number'] = i.permission_number
                         dict1 = {"msg":"success"}
                 except IndexError:
                     return Response(status=status.HTTP_400_BAD_REQUEST)
