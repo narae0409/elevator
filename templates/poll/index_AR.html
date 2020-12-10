@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% load static %}
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'AR.css' %}">
+    <title>Title</title>
+</head>
+<div class="wrapper fadeInDown">
+    <div id="formContent">
+
+<body>
+<form action="" method="POST">
+    {% csrf_token %}
+    <br>
+    <br>
+    <select name="address">
+        <option selected disabled="true">--주소 검색--</option>
+        {% for op in context %}
+            <option>{{ op }}</option>
+        {% endfor %}
+    </select>
+    <br>
+    <br>
+    <input type="submit" value="확인">
+</form>
+
+</div>
+    </div>
+</body>
+</html>

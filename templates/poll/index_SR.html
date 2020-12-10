@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+        <link rel="stylesheet" href="{% static 'SR.css' %}">
+</head>
+<div class="wrapper fadeInDown">
+    <div id="formContent">
+<body>
+    <form adtion="" method="post">
+    {% csrf_token %}
+        {{ form0 }}<br>
+        {{ form1 }}<br>
+        <br>
+        <input type="submit" value="확인">
+    </form>
+</div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<link rel="stylesheet" href="{% static 'LG.css' %}">
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<div class="wrapper fadeInDown">
+    <div id="formContent">
+        
+<body>
+    <form action="" method="post">
+        {% csrf_token %}
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        {{ form |linebreaks }} 
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <input type="submit" value="확인">
+    </form>
+
+
+</div>
+    </div>
+</body>
+</html>

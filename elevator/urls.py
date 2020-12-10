@@ -16,6 +16,9 @@ Including another URLconf
 from django.conf.urls import url,include 
 from django.contrib import admin 
 from rest_framework import routers 
+from django.urls import path, include
+from django.conf.urls.static import static
+from django.conf import settings
 
 #from elevator_api.views import DataViewSet
 
@@ -25,4 +28,7 @@ router = routers.DefaultRouter()
 urlpatterns = [ 
     url('admin/', admin.site.urls), 
     url('',include('elevator_api.urls')), 
+    url('poll/', include('poll.urls')),
 ]
+
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

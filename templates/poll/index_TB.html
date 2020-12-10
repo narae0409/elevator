@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<style type="text/css">
+.tg  {border-collapse:collapse;border-spacing:0;}
+.tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+  overflow:hidden;padding:10px 20px;word-break:normal;}
+.tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+  font-weight:normal;overflow:hidden;padding:10px 20px;word-break:normal;}
+.tg .tg-bq8o{background-color:#efefef;border-color:inherit;color:#333333;text-align:left;vertical-align:top}
+.tg .tg-rf1o{background-color:#efefef;border-color:inherit;color:#333333;font-size:14px;text-align:left;vertical-align:top}
+.tg .tg-i91a{border-color:inherit;color:#333333;text-align:left;vertical-align:top}
+</style>
+<table class="tg">
+<thead>
+  <tr>
+    <th class="tg-rf1o">승강기 번호</th>
+    <th class="tg-i91a" colspan="3">{{ mybytes.elevatorNo }}</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td class="tg-rf1o">건물명</td>
+    <td class="tg-i91a" colspan="3">{{ mybytes.buldNm }}</td>
+  </tr>
+  <tr>
+    <td class="tg-bq8o">소재지</td>
+    <td class="tg-i91a" colspan="3">{{ mybytes.address1 }} {{ mybytes.address2 }}</td>
+  </tr>
+  <tr>
+    <td class="tg-bq8o">제조업체</td>
+    <td class="tg-i91a">{{ mybytes.manufacturerName }}</td>
+    <td class="tg-bq8o">모델명</td>
+    <td class="tg-i91a">{{ mybytes.elvtrModel }}</td>
+  </tr>
+  <tr>
+    <td class="tg-bq8o">종류</td>
+    <td class="tg-i91a">{{ mybytes.elvtrKindNm }}</td>
+    <td class="tg-bq8o">상태</td>
+    <td class="tg-i91a">{{ mybytes.elvtrStts }}</td>
+  </tr>
+  <tr>
+    <td class="tg-bq8o">적재하중</td>
+    <td class="tg-i91a">{{ mybytes.liveLoad }}</td>
+    <td class="tg-bq8o">최대정원</td>
+    <td class="tg-i91a">{{ mybytes.ratedCap }}</td>
+  </tr>
+  <tr>
+    <td class="tg-bq8o">운행구간</td>
+    <td class="tg-i91a">{{ mybytes.shuttleSection }}</td>
+    <td class="tg-bq8o">운행층수</td>
+    <td class="tg-i91a">{{ mybytes.shuttleFloorCnt }}</td>
+  </tr>
+  <tr>
+    <td class="tg-bq8o">지상층수</td>
+    <td class="tg-i91a">{{ mybytes.divGroundFloorCnt }}</td>
+    <td class="tg-bq8o">지하층수</td>
+    <td class="tg-i91a">{{ mybytes.divUndgrndFloorCnt }}</td>
+  </tr>
+  <tr>
+    <td class="tg-bq8o">설치일/최초설치일</td>
+    <td class="tg-i91a">{{ mybytes.frstInstallationDe }} / {{ mybytes.installationDe }}</td>
+    <td class="tg-bq8o">최종검사일</td>
+    <td class="tg-i91a">{{ mybytes.lastInspctDe }}</td>
+  </tr>
+  <tr>
+    <td class="tg-bq8o">검사유효기간</td>
+    <td class="tg-i91a" colspan="3">{{ mybytes.applcBeDt }} ~ {{  mybytes.applcEnDt }}</td>
+  </tr>
+  <tr>
+    <td class="tg-bq8o">유지관리업체명</td>
+    <td class="tg-i91a">{{ mybytes.mntCpnyNm }}</td>
+    <td class="tg-bq8o">유지관리업체 연락처</td>
+    <td class="tg-i91a">{{ mybytes.mntCpnyTelno }}</td>
+  </tr>
+</tbody>
+</table>
+</html>
+

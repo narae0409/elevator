@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="container">
+
+    <script src="https://code.highcharts.com/highcharts.src.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script>
+
+    $.ajax({
+        url: "{% url 'poll:idx_APIW' %}",
+        dataType: 'json',
+        success: function (context) {
+
+            Highcharts.setOptions({
+              global: {
+                useUTC: false
+              }
+            });
+
+            Highcharts.chart('container', {
+                chart: {
+                  height: 500
+                },
+
+                title: {
+                 text: '가속도/고도 일주일 그래프'
+                },
+
+                rangeSelector: {
+                    buttons: [{
+                        type: 'hour',
+                        count: 1,
+                        text: '1h'
+                    }, {
+                        type: 'day',
+                        count: 1,
+                        text: '1D'
+                    }, {
+                        type: 'all',
+                        count: 1,
+                        text: 'All'
+                    }],
+                  selected: 5,
+                  inputEnabled: false
+                },
+
+                xAxis: {
+                    type: 'datetime',
+                    labels:{
+                      formatter: function(){
+                        return Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.value);
+                      },
+<!--                      step: 3-->
+                    }
+                },
+
+                yAxis: {
+                    title : " "
+                },
+
+                tooltip: {
+                  xDateFormat: '%Y-%m-%d %H:%M:%S',
+                  split: true
+                },
+
+                series: [{
+                      name: '가속도',
+                      data: context.acceleration,
+                      color: 'rgba(0,200,0,.6)',
+                      lineWidth: 2
+                  },
+                  {
+                      name: '고도',
+                      data: context.altitude,
+                      lineWidth: 3
+                }],
+
+                 legend: {
+                    enabled: true,
+                    align: 'left',
+                    verticalAlign: 'top',
+                    floating: true,
+                    x: 30,
+                    y: 70
+                 },
+
+                responsive: {
+                    rules: [{
+                      condition: {
+                        maxWidth: 600
+                      },
+                      chartOptions: {
+                        chart: {
+                          height: 300
+                        },
+                        navigator: {
+                          enabled: false
+                        }
+                      }
+                    }]
+                }
+
+            });
+        }
+    });
+    </script>
+    </div>
+    <div class="row mt-2">
+        <div class="col-12">
+            <button type="button" class="btn btn_secondary btn-lg btn_block" name="1t" value="1t" id="1t" onclick="location.href='/poll/graph/'">1T</button>
+            <button type="button" class="btn btn_secondary btn-lg btn_block" name="1d" value="1d" id="1d" onclick="location.href='/poll/graph/day/'">1D</button>
+            <button type="button" class="btn btn_secondary btn-lg btn_block" name="1w" value="1w" id="1w" onclick="location.href='/poll/graph/week/'">1W</button>
+            <button type="button" class="btn btn_secondary btn-lg btn_block" name="1m" value="1m" id="1m" onclick="location.href='/poll/graph/all'">All</button>
+        </div>
+    </div>
+</body>
+</html>
