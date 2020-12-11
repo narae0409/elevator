@@ -18,7 +18,7 @@ class DataList(APIView):
             raise Http404
         
     def get(self, request, format=None):
-        dt = Elevator.objects.all()
+        dt = Elevator.objects.all().order_by('-id')[:10]
         serializer = MovieSerializer(dt, many=True)
         #DB data serializer를 통한 json화, xml file은 python module xmltodict 
         return Response(serializer.data)
@@ -57,7 +57,7 @@ class DataAddress(APIView):
 class Detail(APIView):
         
     def get(self, request, format=None):
-        dt = Elevator.objects.all()
+        dt = Elevator.objects.all().order_by('-id')[:10]
         serializer = MovieSerializer(dt, many=True)
         #DB data serializer를 통한 json화, xml file은 python module xmltodict 
         return Response(serializer.data)
