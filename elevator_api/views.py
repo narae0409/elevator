@@ -11,9 +11,11 @@ import json
 
 class DataList(APIView):
 
-    def get_object(self, pk):
+    def get_object(self, pk, cat_date):
         try:
-            return Elevator.objects.filter(number=pk)
+            data = Elevator.objects.filter(number=pk)
+            result = data.filter(date__gte=cat_date)
+            return result
         except Elevator.DoesNotExist:
             raise Http404
         
@@ -25,10 +27,13 @@ class DataList(APIView):
 
     def post(self, request, format=None):
         val = request.data.values()
-        if val is not None:
-            for i in val:  
-                snippet = self.get_object(i)
+        arr = list(val)
+        if arr[0] is not None:
+            try:
+                snippet = self.get_object(arr[0], arr[1])
                 serializer = MovieSerializer(snippet, many=True)
+            except:
+                return Response(status=status.HTTP_400_BAD_REQUEST)
 
         return Response(serializer.data)
 
@@ -91,7 +96,7 @@ class Detail(APIView):
 class DataInsert(APIView):
 
     def get(self, request, format=None):
-        dt = Elevator.objects.all()
+        dt = Elevator.objects.all().order_by('-id')[:10]
         serializer = MovieSerializer(dt, many=True)
         return Response(serializer.data)
 
@@ -103,7 +108,8 @@ class DataInsert(APIView):
             try:
                 # ('number'=0,'humidity'=1, 'tempareture'=2, 'ir'=3,'acceleration_x'=4,'acceleration_y'=5,'acceleration_z'=6,'roll'=7, 'pitch'=8, 'yaw'=9, 'base_altitude'=10, 'current_altitude'=11, 'height'=12, 'permission_number'=13)
                 dict1 = {"number":arr[0], "humidity":arr[1],"tempareture":arr[2], "ir":arr[3], "acceleration_x":arr[4], "acceleration_y":arr[5], "acceleration_z":arr[6], "roll":arr[7], "pitch":arr[8], "yaw":arr[9], "base_altitude":arr[10], "current_altitude":arr[11], "height":arr[12], "permission_number":arr[13]}
-                Elevator.objects.create(number=arr[0], ir=arr[3], acceleration_x=arr[4], acceleration_y=arr[5], acceleration_z=arr[6], roll=arr[7], pitch=arr[8], yaw=arr[9], base_altitude=arr[10], current_altitude=arr[11], height=arr[12], permission_number=arr[13])  # dict1 = {"msg":"success"}
+                Elevator.objects.create(number=arr[0], ir=arr[3], acceleration_x=arr[4], acceleration_y=arr[5], acceleration_z=arr[6], roll=arr[7], pitch=arr[8], yaw=arr[9], base_altitude=arr[10], current_altitude=arr[11], height=arr[12], permission_number=arr[13])  
+                dict1 = {"msg":"success"}
                 return Response(dict1)
             except IndexError:
                 return Response(status=status.HTTP_400_BAD_REQUEST)
