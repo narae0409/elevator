@@ -5,38 +5,9 @@ from rest_framework.views import APIView
 from datetime import datetime, timedelta
 from time import mktime, strptime
 from .forms import *
-from elevator_api.models import Elevator
 import requests, json, math
 
-class eAPIView(APIView):
-	authentication_classes = []
-	permission_classes = []
-	
-	def get(self, request):
-		acceleration_list = []
-		altitude_list = []
-		date_list = []
-		stocks = Elevator.objects.all().order_by('date')
-
-		for stock in stocks:
-			utc_now = mktime(strptime(str(stock.date), '%Y-%m-%d %H:%M:%S')) * 1000
-			date_list.append(stock.date)
-			acceleration_list.append([utc_now, stock.acceleration_z])
-			altitude_list.append([utc_now, stock.current_altitude])
-			
-		data = {
-			'acceleration': acceleration_list,
-			'altitude': altitude_list,
-			'date': date_list
-		}
-		
-		return Response(data)
-
-def chart(request):
-	context = {}
-	return render(request, 'poll/le.html', context)
-
-class ElvtAPIVIEW_A(APIView):
+class ElvtAPIVIEW_A(APIView): # 한달
 	authentication_classes = []
 	permission_classes = []
 
@@ -44,9 +15,14 @@ class ElvtAPIVIEW_A(APIView):
 		date_list = []
 		acceleration_list = []
 		altitude_list = []
+
+		date_now = datetime.now()
+		date_now = (date_now - timedelta(days=30))
+		date_now = date_now.strftime("%Y-%m-%d %H:%M:%S")
+		date_now = datetime.strptime(date_now, "%Y-%m-%d %H:%M:%S").date()
 
 		url = "http://210.119.145.22/data/"
-		d = {"number": number}
+		d = {"number": number, "date": date_now}
 		res = requests.post(url, d)
 		mybytes = res.text
 		mybytes = json.loads(mybytes)
@@ -73,25 +49,21 @@ class ElvtAPIVIEW_T(APIView):
 		acceleration_list = []
 		altitude_list = []
 
+		date_now = datetime.now()
+		date_now = (date_now - timedelta(hours=1))
+		date_now = date_now.strftime("%Y-%m-%d %H:%M:%S")
+
 		url = "http://210.119.145.22/data/"
-		d = {"number": number}
+		d = {"number": number, "date": date_now}
 		res = requests.post(url, d)
 		mybytes = res.text
 		mybytes = json.loads(mybytes)
 
 		for i in mybytes:	# 한시간
-			date_now = datetime.now()
-			date_now = (date_now - timedelta(hours=1))
-			date_now = date_now.strftime("%Y-%m-%d %H:%M:%S")
-			date_now = datetime.strptime(date_now, "%Y-%m-%d %H:%M:%S").date()
-			date_res = datetime.strptime(i['date'], "%Y-%m-%d %H:%M:%S").date()
-			if date_res > date_now:
-				utc_now = mktime(strptime(str(i['date']), '%Y-%m-%d %H:%M:%S')) * 1000
-				date_list.append(i['date'])
-				acceleration_list.append([utc_now, i['acceleration_z']])
-				altitude_list.append([utc_now, i['current_altitude']])
-			else :	# 한시간 이후(지난) 데이터
-				pass
+			utc_now = mktime(strptime(str(i['date']), '%Y-%m-%d %H:%M:%S')) * 1000
+			date_list.append(i['date'])
+			acceleration_list.append([utc_now, i['acceleration_z']])
+			altitude_list.append([utc_now, i['current_altitude']])
 
 		context = {
 			'acceleration': acceleration_list,
@@ -109,25 +81,23 @@ class ElvtAPIVIEW_D(APIView):
 		acceleration_list = []
 		altitude_list = []
 
+		date_now = datetime.now()
+		date_now = (date_now - timedelta(days=1))
+		date_now = date_now.strftime("%Y-%m-%d %H:%M:%S")
+		date_now = datetime.strptime(date_now, "%Y-%m-%d %H:%M:%S").date()
+
 		url = "http://210.119.145.22/data/"
-		d = {"number": number}
+		d = {"number": number, "date": date_now}
 		res = requests.post(url, d)
 		mybytes = res.text
 		mybytes = json.loads(mybytes)
 
 		for i in mybytes:	# 하루
-			date_now = datetime.now()
-			date_now = (date_now - timedelta(days=1))
-			date_now = date_now.strftime("%Y-%m-%d %H:%M:%S")
-			date_now = datetime.strptime(date_now, "%Y-%m-%d %H:%M:%S").date()
-			date_res = datetime.strptime(i['date'], "%Y-%m-%d %H:%M:%S").date()
-			if date_res > date_now:
-				utc_now = mktime(strptime(str(i['date']), '%Y-%m-%d %H:%M:%S')) * 1000
-				date_list.append(i['date'])
-				acceleration_list.append([utc_now, i['acceleration_z']])
-				altitude_list.append([utc_now, i['current_altitude']])
-			else :	# 하루 이후(지난) 데이터
-				pass
+			utc_now = mktime(strptime(str(i['date']), '%Y-%m-%d %H:%M:%S')) * 1000
+			date_list.append(i['date'])
+			acceleration_list.append([utc_now, i['acceleration_z']])
+			altitude_list.append([utc_now, i['current_altitude']])
+
 		context = {
 			'acceleration': acceleration_list,
 			'altitude': altitude_list,
@@ -144,25 +114,23 @@ class ElvtAPIVIEW_W(APIView):
 		acceleration_list = []
 		altitude_list = []
 
+		date_now = datetime.now()
+		date_now = (date_now - timedelta(days=7))
+		date_now = date_now.strftime("%Y-%m-%d %H:%M:%S")
+		date_now = datetime.strptime(date_now, "%Y-%m-%d %H:%M:%S").date()
+
 		url = "http://210.119.145.22/data/"
-		d = {"number": number}
+		d = {"number": number, "date": date_now}
 		res = requests.post(url, d)
 		mybytes = res.text
 		mybytes = json.loads(mybytes)
 
 		for i in mybytes:	# 일주일
-			date_now = datetime.now()
-			date_now = (date_now - timedelta(days=7))
-			date_now = date_now.strftime("%Y-%m-%d %H:%M:%S")
-			date_now = datetime.strptime(date_now, "%Y-%m-%d %H:%M:%S").date()
-			date_res = datetime.strptime(i['date'], "%Y-%m-%d %H:%M:%S").date()
-			if date_res > date_now:
-				utc_now = mktime(strptime(str(i['date']), '%Y-%m-%d %H:%M:%S')) * 1000
-				date_list.append(i['date'])
-				acceleration_list.append([utc_now, i['acceleration_z']])
-				altitude_list.append([utc_now, i['current_altitude']])
-			else:  # 일주일 이후(지난) 데이터
-				pass
+			utc_now = mktime(strptime(str(i['date']), '%Y-%m-%d %H:%M:%S')) * 1000
+			date_list.append(i['date'])
+			acceleration_list.append([utc_now, i['acceleration_z']])
+			altitude_list.append([utc_now, i['current_altitude']])
+
 		context = {
 			'acceleration': acceleration_list,
 			'altitude': altitude_list,
@@ -201,29 +169,12 @@ def index_GET(request):	# param_example : {"sensor":"test"}
 	return render(request, 'poll/index_GET.html', context)
 
 def index_POST(request):
-	global number
-	global address
-	if request.method == "POST":
-		form0 = ElvtNumber(request.POST)
-		form1 = ElvtAddress(request.POST)
-		if form0.is_valid():
-			number = form0.cleaned_data['elvtNumber']
-			if number:
-				return HttpResponseRedirect('/poll/main/number/')
-		if form1.is_valid():
-			address = form1.cleaned_data['elvtAddress']
-			if address:
-				return HttpResponseRedirect('/poll/address/')
-	else:
-		form0 = ElvtNumber()
-		form1 = ElvtAddress()
-	return render(request, 'poll/index_POST.html', {'form0': form0, 'form1': form1})
 	url = "http://210.119.145.22/data/details/"
-	'''d = { 'number' : '5057510'}
+	d = { 'number' : '5057510'}
 	res = requests.post(url, data=d)
 	mybytes = res.text
 	context = {'mybytes': mybytes }
-	return render(request, 'poll/index_POST.html', context)'''
+	return render(request, 'poll/index_POST.html', context)
 
 def index_Search(request):
 	global number
@@ -275,9 +226,10 @@ def index_Address(request):
 		for op in result:
 			number = op['number']
 		return HttpResponseRedirect('/poll/main/number/')
+	else:
+		form = ElvtAddresList()
 
-	# context = {'context': context}
-	return render(request, 'poll/index_AR.html', {'context': context})
+	return render(request, 'poll/index_AR.html', {'context': context, 'form': form})
 
 def index_GraphA(request):
 	context = {}
@@ -296,8 +248,13 @@ def index_GraphW(request):
 	return render(request, 'poll/index_GPW.html', context)
 
 def index_Graphic(request):
+	date_now = datetime.now()
+	date_now = (date_now - timedelta(hours=1))
+	date_now = date_now.strftime("%Y-%m-%d %H:%M:%S")
+	# date_now = datetime.strptime(date_now, "%Y-%m-%d %H:%M:%S").date()
+
 	url = "http://210.119.145.22/data/"
-	d = {"number": "5057510"}
+	d = {"number": number, "date": date_now}
 	res = requests.post(url, d)
 	mybytes = res.text
 	mybytes = json.loads(mybytes)
@@ -318,8 +275,12 @@ def index_Graphic(request):
 		return render(request, 'poll/index_GRPF.html', context)
 
 def index_NumberMain(request):	# 한시간
+	date_now = datetime.now()
+	date_now = (date_now - timedelta(hours=1))
+	date_now = date_now.strftime("%Y-%m-%d %H:%M:%S")
+
 	url = "http://210.119.145.22/data/"
-	d = {'number': number}
+	d = {"number": number, "date": date_now}
 	res = requests.post(url, data=d)
 	mybytes = res.text
 	mybytes = json.loads(mybytes)
@@ -341,8 +302,12 @@ def index_NumberMain(request):	# 한시간
 		return render(request, 'poll/index_MNF.html', context)
 
 def index_NumberMain_D(request):	# 하루
+	date_now = datetime.now()
+	date_now = (date_now - timedelta(hours=1))
+	date_now = date_now.strftime("%Y-%m-%d %H:%M:%S")
+
 	url = "http://210.119.145.22/data/"
-	d = {'number': number}
+	d = {"number": number, "date": date_now}
 	res = requests.post(url, data=d)
 	mybytes = res.text
 	mybytes = json.loads(mybytes)
@@ -364,8 +329,12 @@ def index_NumberMain_D(request):	# 하루
 		return render(request, 'poll/index_MNFD.html', context)
 
 def index_NumberMain_W(request):	# 일주일
+	date_now = datetime.now()
+	date_now = (date_now - timedelta(hours=1))
+	date_now = date_now.strftime("%Y-%m-%d %H:%M:%S")
+
 	url = "http://210.119.145.22/data/"
-	d = {'number': number}
+	d = {"number": number, "date": date_now}
 	res = requests.post(url, data=d)
 	mybytes = res.text
 	mybytes = json.loads(mybytes)
@@ -386,9 +355,13 @@ def index_NumberMain_W(request):	# 일주일
 	else :
 		return render(request, 'poll/index_MNFW.html', context)
 
-def index_NumberMain_A(request):	# 전부
+def index_NumberMain_A(request):	# 30일
+	date_now = datetime.now()
+	date_now = (date_now - timedelta(hours=1))
+	date_now = date_now.strftime("%Y-%m-%d %H:%M:%S")
+
 	url = "http://210.119.145.22/data/"
-	d = {'number': number}
+	d = {"number": number, "date": date_now}
 	res = requests.post(url, data=d)
 	mybytes = res.text
 	mybytes = json.loads(mybytes)
@@ -408,3 +381,9 @@ def index_NumberMain_A(request):	# 전부
 		return render(request, 'poll/index_MNTA.html', context)
 	else :
 		return render(request, 'poll/index_MNFA.html', context)
+
+def blogMain(request):
+	return render(request, 'index_LG.html')
+
+def blogS(request):
+	return render(request, 'index_SR.html')

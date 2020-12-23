@@ -2,11 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
 </head>
 <body>
 {{ acceleration }}m/min<br>
-{{ layer }}<img src="/static/image/ir_True.GIF" width="50" height="50">
+{{ layer }}<img src="/static/image/ir_True.GIF"  width="50" height="50">
     <div id="container">
 
     <script src="https://code.highcharts.com/highcharts.src.js"></script>
@@ -30,7 +29,7 @@
                 },
 
                 title: {
-                 text: '가속도/고도 전체 그래프'
+                 text: '가속도/고도 한달 그래프'
                 },
 
                 rangeSelector: {
@@ -117,7 +116,7 @@
             <button type="button" class="btn btn_secondary btn-lg btn_block" name="1t" value="1t" id="1t" onclick="location.href='/poll/main/number/'">1T</button>
             <button type="button" class="btn btn_secondary btn-lg btn_block" name="1d" value="1d" id="1d" onclick="location.href='/poll/main/number/day/'">1D</button>
             <button type="button" class="btn btn_secondary btn-lg btn_block" name="1w" value="1w" id="1w" onclick="location.href='/poll/main/number/week/'">1W</button>
-            <button type="button" class="btn btn_secondary btn-lg btn_block" name="1m" value="1m" id="1m" onclick="location.href='/poll/main/number/all/'">All</button>
+            <button type="button" class="btn btn_secondary btn-lg btn_block" name="1m" value="1m" id="1m" onclick="location.href='/poll/main/number/month/'">1M</button>
         </div>
     </div>
 </body>
