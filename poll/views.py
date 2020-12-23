@@ -288,7 +288,7 @@ def index_NumberMain(request):	# 한시간
 	latest = mybytes[-1]
 	late = mybytes[-2]
 
-	layer = ((float)(latest['current_altitude']) - (float)(latest['base_altitude']))/(float)(latest['height'])
+	layer = ((float)(latest['current_altitude']) - (float)(latest['base_altitude']))/(float)(latest['height']+1)
 	acceleration = ((int)(latest['acceleration_z']) - (int)(late['acceleration_z']))/10
 
 	context = {
